@@ -1,20 +1,23 @@
 #include <iostream>
 #include <string>
-#include "client.h"
+#include "data.h"
 
 int main(int argc, char* argv[])
 {
+    std::string pass;
+
     if(argc < 2)
     {
         std::cout << "Please provide command line arguments." << std::endl;
         return 0;
     }
 
-    std::cout << argv[1] << std::endl;
-
     if((std::string(argv[1])) == "new")
     {
-        ParseNew(argc, argv);
+        pass = ParseNew(argc, argv);
     }
+
+    std::cout << "Your new password: " << pass << std::endl;
+
     return 0;
 }
