@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include "data.h"
+#include "utils.h"
 
 int main(int argc, char* argv[])
 {
@@ -18,6 +19,7 @@ int main(int argc, char* argv[])
     }
 
     std::cout << "Your new password: " << pass << std::endl;
+    ToClipboard(pass);
 
     return 0;
 }
