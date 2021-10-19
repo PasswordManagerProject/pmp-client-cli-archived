@@ -2,10 +2,12 @@
 #include <string>
 #include "data.h"
 #include "utils.h"
+#include "crypto.h"
 
 int main(int argc, char* argv[])
 {
     std::string pass;
+    std::string encpass;
 
     if(argc < 2)
     {
@@ -20,6 +22,10 @@ int main(int argc, char* argv[])
 
     std::cout << "Your new password: " << pass << std::endl;
     ToClipboard(pass);
+
+    encpass = Encrypt(pass, "");
+    std::cout << encpass << std::endl;
+    std::cout << Decrypt(encpass, "") << std::endl;
 
     return 0;
 }
