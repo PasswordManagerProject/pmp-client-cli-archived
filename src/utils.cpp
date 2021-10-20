@@ -48,3 +48,68 @@ std::string CleanString(std::string pass)
 
     return cleanString;
 }
+
+bool ConfigFilesExists()
+{
+    std::ifstream f(CONFIG_FILE);
+    return f.good();
+}
+
+bool CreateConfigFile()
+{
+    std::string master = "";
+    std::string master_enc = "";
+    std::ofstream file;
+
+    if(ConfigFilesExists())
+    {
+        std::cout << "A config file already exists. Please delete manually if you want to lose your master password."
+        << std::endl;
+        return false;
+    }
+
+    std::cout << "Please enter a master password: ";
+    //TODO: HIDE PASSWORD ENTRY
+    getline(std::cin, master);
+
+    master_enc = Encrypt(master, std::string(MASTER_KEY));
+
+    file.open(CONFIG_FILE);
+    file << master_enc;
+    file.close();
+
+    return true;
+}
+
+bool ValidateMaster()
+{
+    std::string master = "";
+    std::string master_enc = "";
+    std::ifstream file;
+
+    std::cout << "Please enter your master password: ";
+    //TODO: HIDE PASSWORD ENTRY
+    getline(std::cin, master);
+
+    master_enc = Encrypt(master, std::string(MASTER_KEY));
+
+    file.open(CONFIG_FILE);
+
+    if(!file.good())
+    {
+        std::cout << "No config file found. How did you end up here?" << endl;
+        return false;
+    }
+
+    std::string filepass { istreambuf_iterator<char>(file), istreambuf_iterator<char>() };
+
+    if(filepass == master_enc)
+    {
+        return true;
+    }
+    else
+    {
+        std::cout << "Incorrect password." << std::endl;
+        return false;
+    }
+}
